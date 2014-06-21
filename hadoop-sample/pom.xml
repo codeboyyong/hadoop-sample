@@ -7,7 +7,7 @@
 	<name>hadoop-sample</name>
 
 	<properties>
-		<hadoop.version>1.0.4</hadoop.version>
+		<hadoop.version>1.2.0</hadoop.version>
 	</properties>
 
 	<dependencies>

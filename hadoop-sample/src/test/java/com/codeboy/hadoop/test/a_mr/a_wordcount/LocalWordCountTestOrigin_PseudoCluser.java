@@ -25,17 +25,17 @@ import com.codeboy.hadoop.util.HadoopFileUtil;
  * @author codeboyyong
  *
  */
-public class LocalWordCountTestOrigin_PsudoCluser {
+public class LocalWordCountTestOrigin_PseudoCluser {
 
 	@Test
 	public void testWordCount() throws Exception {
 
-		InputStream jsonFileInputStream = LocalWordCountTestOrigin_PsudoCluser.class
+		InputStream jsonFileInputStream = LocalWordCountTestOrigin_PseudoCluser.class
 				.getResourceAsStream("/com/codeboy/hadoop/resource/cluster/localhosthadoop.txt");
 		HadoopCluster hadoopCluster = HadoopClusterUtil
 				.readHadoopClusterFromJsonInputStram(jsonFileInputStream);
 
-		InputStream wordCountInputStream = LocalWordCountTestOrigin_PsudoCluser.class
+		InputStream wordCountInputStream = LocalWordCountTestOrigin_PseudoCluser.class
 				.getResourceAsStream("/com/codeboy/hadoop/resource/testdata/wordcount.txt");
 
 		String inputPath = "/tmp/wordcount.txt";
