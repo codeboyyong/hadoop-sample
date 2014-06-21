@@ -1,0 +1,57 @@
+city:sf, school:sfsu, name:tom, class:cs160, score:3
+city:sf, school:sfsu, name:tom, class:cs50, score:4
+city:sf, school:sfsu, name:tom, class:cs300, score:5
+
+city:sf, school:sfsu, name:jerry, class:cs160, score:3
+city:sf, school:sfsu, name:jerry, class:cs50, score:4
+city:sf, school:sfsu, name:jerry, class:cs300, score:4
+
+city:sf, school:sfsu, name:cindy, class:cs160, score:4
+city:sf, school:sfsu, name:cindy, class:cs50, score:3
+city:sf, school:sfsu, name:cindy, class:cs300, score:5
+
+city:sf, school:sfsu, name:rose, class:cs160, score:5
+city:sf, school:sfsu, name:rose, class:cs50, score:5
+city:sf, school:sfsu, name:rose, class:cs300, score:5
+
+city:sf, school:ccsf, name:jeff, class:cs160, score:4
+city:sf, school:ccsf, name:jeff, class:cs50, score:4
+city:sf, school:ccsf, name:jeff, class:cs300, score:5
+
+city:sf, school:ccsf, name:adam, class:cs160, score:5
+city:sf, school:ccsf, name:adam, class:cs50, score:4
+city:sf, school:ccsf, name:adam, class:cs300, score:5
+
+city:sf, school:ccsf, name:bill, class:cs160, score:4
+city:sf, school:ccsf, name:bill, class:cs50, score:2
+city:sf, school:ccsf, name:bill, class:cs300, score:5
+
+city:sf, school:ccsf, name:will, class:cs160, score:1
+city:sf, school:ccsf, name:will, class:cs50, score:2
+city:sf, school:ccsf, name:will, class:cs300, score:2
+
+city:la, school:ccla, name:dean, class:cs160, score:3
+city:la, school:ccla, name:dean, class:cs50, score:3
+city:la, school:ccla, name:dean, class:cs300, score:3
+
+city:la, school:ccla, name:ella, class:cs160, score:2
+city:la, school:ccla, name:ella, class:cs50, score:4
+city:la, school:ccla, name:ella, class:cs300, score:2
+
+city:la, school:ccla, name:sax, class:cs160, score:4
+city:la, school:ccla, name:sax, class:cs50, score:2
+city:la, school:ccla, name:sax, class:cs300, score:1
+
+city:la, school:ccla, name:ford, class:cs160, score:4
+city:la, school:ccla, name:ford, class:cs50, score:2
+city:la, school:ccla, name:ford, class:cs300, score:5
+
+
+
+city:la, school:ucla, name:cox, class:cs160, score:4
+city:la, school:ucla, name:cox, class:cs50, score:2
+city:la, school:ucla, name:cox, class:cs300, score:1
+
+city:la, school:ucla, name:amy, class:cs160, score:4
+city:la, school:ucla, name:amy, class:cs50, score:2
+city:la, school:ucla, name:amy, class:cs300, score:5

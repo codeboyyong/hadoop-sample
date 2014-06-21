@@ -1,0 +1,13 @@
+{
+	"type":"MINI",
+	"clusterName":"localhost",
+	
+	"hdfsHost":"localhost",
+	"hdfsPort":9000,
+	
+	"jobHost":"localhost",
+	"jobPort":9001,
+
+	"userName":"codeboy",
+	"groupName":"supergroups" 
+}
