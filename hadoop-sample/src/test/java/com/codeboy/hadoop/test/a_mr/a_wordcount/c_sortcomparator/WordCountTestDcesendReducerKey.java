@@ -1,4 +1,4 @@
-package com.codeboy.hadoop.test.a_mr.a_wordcount.b_sortcomparator;
+package com.codeboy.hadoop.test.a_mr.a_wordcount.c_sortcomparator;
 
 import java.io.IOException;
 import java.util.LinkedHashMap;
@@ -12,6 +12,7 @@ import org.junit.After;
 import org.junit.Test;
 
 import com.codeboy.hadoop.test.a_mr.a_wordcount.AbstractWordCountTest;
+import com.codeboy.hadoop.util.HadoopClusterUtil;
 import com.codeboy.hadoop.util.HadoopFileUtil;
 
 /***
@@ -44,5 +45,7 @@ public class WordCountTestDcesendReducerKey extends AbstractWordCountTest {
 				Assert.assertEquals(expectedKeys[i++],key);
 			}
 		}
+		
+		
 
 }

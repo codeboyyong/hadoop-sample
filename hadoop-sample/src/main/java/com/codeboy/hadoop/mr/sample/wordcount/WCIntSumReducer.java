@@ -6,7 +6,7 @@ import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapreduce.Reducer;
 
-public class IntSumReducer extends
+public class WCIntSumReducer extends
 		Reducer<Text, IntWritable, Text, IntWritable> {
 	
 	public static  enum COUNTERS {
@@ -31,7 +31,7 @@ public class IntSumReducer extends
 	
 	protected IntWritable result = new IntWritable();
 
-	public IntSumReducer(){
+	public WCIntSumReducer(){
 		
 	}
 	

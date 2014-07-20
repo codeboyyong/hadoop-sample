@@ -1,5 +1,7 @@
 package com.codeboy.hadoop.base;
 
+import java.util.Properties;
+
 
 public class HadoopCluster     {
 	
@@ -18,6 +20,15 @@ public class HadoopCluster     {
 	private String hdfsHost;
 	private SSHRemoteLoginConfig sshConfig;
 	private ClusterType type;
+	private Properties customizedPorpeties; 
+
+	public Properties getCustomizedPorpeties() {
+		return customizedPorpeties;
+	}
+
+	public void setCustomizedPorpeties(Properties customizedPorpeties) {
+		this.customizedPorpeties = customizedPorpeties;
+	}
 
 	public HadoopCluster(String connName, String userName,
 			String groupName, String hdfsHostName, int hdfsPort,
@@ -205,5 +216,6 @@ public class HadoopCluster     {
 	public SSHRemoteLoginConfig getSSHRemoteLoginConfig() {
  		return this.sshConfig;
 	}
+
 
 }

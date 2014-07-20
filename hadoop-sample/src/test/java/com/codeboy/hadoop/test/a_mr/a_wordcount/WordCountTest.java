@@ -1,18 +1,17 @@
 package com.codeboy.hadoop.test.a_mr.a_wordcount;
 
-import java.io.IOException;
 import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Set;
 
 import junit.framework.Assert;
 
-import org.apache.hadoop.conf.Configuration;
-import org.apache.hadoop.mapreduce.Job;
 import org.junit.Test;
 
 import com.codeboy.hadoop.util.HadoopFileUtil;
 
+
+//default is running in the minicluster
 /***
  * The basic version, hadoop will auto sorting the key
  * 1) basic one :           com.codeboy.hadoop.test.mr.wordcount
@@ -29,16 +28,8 @@ import com.codeboy.hadoop.util.HadoopFileUtil;
  * @author codeboyyong
  * 
  */
-public class WordCountTestOrigin extends AbstractWordCountTest {
+public class WordCountTest extends AbstractWordCountTest {
 
-	@Override
-	protected   Job createWCJob(Configuration jobConf, String inputPath,
-			String outputPath) throws IOException {	 
-		//even you do nothing, hadoop will sort the map output key
-		return super.createWCJob(jobConf, inputPath, outputPath);
-	}
-	
-	
 	@Test
 	public void testWordCount() throws Exception {
 		//this is to print the map to let you know what happens
@@ -50,6 +41,7 @@ public class WordCountTestOrigin extends AbstractWordCountTest {
 		Assert.assertEquals(maptOutputs.size(),28);
  		
 		deleteFile( outputPath);
+		
 		//now run the real job
 		super.runWordCountJob();
 		LinkedHashMap<String,String> output = HadoopFileUtil.readAllContentAsLinkedMap( 

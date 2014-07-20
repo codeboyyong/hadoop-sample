@@ -17,8 +17,13 @@ public class HadoopClusterUtil {
 		conf.set("fs.default.name",toNameNodeURL(  hadoopCluster));
  		//if don't set, running in local mode, you can debug into mapper and reducer
 		//but then the out put will loss
-		//conf.set("mapred.job.tracker", hadoopCluster.getJobHost() +":" +hadoopCluster.getJobPort());
+		//conf.set("mapred.job.tracker", hadoopClust er.getJobHost() +":" +hadoopCluster.getJobPort());
 
+		if(hadoopCluster.getCustomizedPorpeties()!=null){
+			for(Object  key :hadoopCluster.getCustomizedPorpeties().keySet()){
+				conf.set(key.toString(), (String)hadoopCluster.getCustomizedPorpeties().getProperty(key.toString()));	
+			}
+		}
 		return conf;
 	}
 	

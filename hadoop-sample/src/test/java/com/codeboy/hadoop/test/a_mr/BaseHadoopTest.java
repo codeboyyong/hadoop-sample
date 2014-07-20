@@ -4,7 +4,9 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.apache.hadoop.conf.Configuration;
+import org.junit.After;
 import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.BeforeClass;
 
 import com.codeboy.hadoop.util.HadoopClusterUtil;
@@ -20,18 +22,18 @@ import com.codeboy.hadoop.util.HadoopFileUtil;
  */
 
 public abstract class BaseHadoopTest {
-	static TestClusterManager testClusterManager = TestClusterManager.INSTANCE;
+	 protected TestClusterManager testClusterManager = null;
 
-	@BeforeClass
-	public static void setUpBeforeClass() throws Exception {
-		testClusterManager.startUp();
+	@Before 
+	public   void setUpBefore () throws Exception {
+		testClusterManager = new TestClusterManager();
+ 		testClusterManager.startUp();
 	}
 
-	@AfterClass
-	public static void tearDownAfterClass() throws Exception {
+	@After 
+	public   void tearDownAfter () throws Exception {
 		testClusterManager.shutDown();
-
-	}
+ 	}
 
 	// /com/codeboy/hadoop/resource/testdata/wordcount_input.txt
 	protected void copyToHadoop(String localResourcePath,

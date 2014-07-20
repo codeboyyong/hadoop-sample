@@ -1,13 +1,11 @@
-package com.codeboy.hadoop.test.a_mr.a_wordcount.b_sortcomparator;
+package com.codeboy.hadoop.test.a_mr.a_wordcount.c_sortcomparator;
 
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.io.WritableComparable;
 import org.apache.hadoop.io.WritableComparator;
 
 public class StringDescendComparator extends WritableComparator {
-	 
-		//Constructor.
-		 
+
 		protected StringDescendComparator() {
 			//this Text.Class == mapoutput class
 			super(Text.class, true);

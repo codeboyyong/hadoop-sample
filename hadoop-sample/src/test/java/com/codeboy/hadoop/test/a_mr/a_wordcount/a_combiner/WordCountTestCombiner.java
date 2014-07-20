@@ -11,7 +11,7 @@ import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.mapreduce.Job;
 import org.junit.Test;
 
-import com.codeboy.hadoop.mr.sample.wordcount.IntSumReducer.COUNTERS;
+import com.codeboy.hadoop.mr.sample.wordcount.WCIntSumReducer.COUNTERS;
 import com.codeboy.hadoop.test.a_mr.a_wordcount.AbstractWordCountTest;
 import com.codeboy.hadoop.util.HadoopFileUtil;
 

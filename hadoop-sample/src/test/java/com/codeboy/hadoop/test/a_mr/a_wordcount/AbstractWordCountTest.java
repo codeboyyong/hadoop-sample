@@ -16,8 +16,8 @@ import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
 import org.junit.After;
 import org.junit.Before;
 
-import com.codeboy.hadoop.mr.sample.wordcount.IntSumReducer;
-import com.codeboy.hadoop.mr.sample.wordcount.TokenizerMapper;
+import com.codeboy.hadoop.mr.sample.wordcount.WCIntSumReducer;
+import com.codeboy.hadoop.mr.sample.wordcount.WCTokenizerMapper;
 import com.codeboy.hadoop.test.a_mr.BaseHadoopTest;
 
 /***
@@ -88,7 +88,7 @@ public abstract class AbstractWordCountTest extends BaseHadoopTest {
 		Job job = new Job(jobConf);
 
  		
-		job.setJarByClass(TokenizerMapper.class);
+		job.setJarByClass(WCTokenizerMapper.class);
 
 		job.setJobName("wordcount");
 		
@@ -98,10 +98,10 @@ public abstract class AbstractWordCountTest extends BaseHadoopTest {
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
 
-		job.setMapperClass(TokenizerMapper.class);
+		job.setMapperClass(WCTokenizerMapper.class);
 
-		job.setCombinerClass(IntSumReducer.class);
-		job.setReducerClass(IntSumReducer.class);
+		job.setCombinerClass(WCIntSumReducer.class);
+		job.setReducerClass(WCIntSumReducer.class);
 
 		job.setInputFormatClass(TextInputFormat.class);
 		job.setOutputFormatClass(TextOutputFormat.class);

@@ -1,4 +1,4 @@
-package com.codeboy.hadoop.test.a_mr.a_wordcount;
+package com.codeboy.hadoop.pseudocluster.test;
 
 import java.io.IOException;
 import java.io.InputStream;
@@ -12,11 +12,10 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
-import org.junit.Test;
 
 import com.codeboy.hadoop.base.HadoopCluster;
-import com.codeboy.hadoop.mr.sample.wordcount.IntSumReducer;
-import com.codeboy.hadoop.mr.sample.wordcount.TokenizerMapper;
+import com.codeboy.hadoop.mr.sample.wordcount.WCIntSumReducer;
+import com.codeboy.hadoop.mr.sample.wordcount.WCTokenizerMapper;
 import com.codeboy.hadoop.util.HadoopClusterUtil;
 import com.codeboy.hadoop.util.HadoopFileUtil;
 
@@ -25,17 +24,17 @@ import com.codeboy.hadoop.util.HadoopFileUtil;
  * @author codeboyyong
  *
  */
-public class LocalWordCountTestOrigin_PseudoCluser {
+public class LocalWordCountTest_PseudoCluser {
 
-	@Test
-	public void testWordCount() throws Exception {
+ 
+	public   static void main( String args[]) throws Exception {
 
-		InputStream jsonFileInputStream = LocalWordCountTestOrigin_PseudoCluser.class
+		InputStream jsonFileInputStream = LocalWordCountTest_PseudoCluser.class
 				.getResourceAsStream("/com/codeboy/hadoop/resource/cluster/localhosthadoop.txt");
 		HadoopCluster hadoopCluster = HadoopClusterUtil
 				.readHadoopClusterFromJsonInputStram(jsonFileInputStream);
 
-		InputStream wordCountInputStream = LocalWordCountTestOrigin_PseudoCluser.class
+		InputStream wordCountInputStream = LocalWordCountTest_PseudoCluser.class
 				.getResourceAsStream("/com/codeboy/hadoop/resource/testdata/wordcount.txt");
 
 		String inputPath = "/tmp/wordcount.txt";
@@ -62,22 +61,22 @@ public class LocalWordCountTestOrigin_PseudoCluser {
 	}
 
 
-	private static Job createWCJob(Configuration jobConf, String inputPath,
+	private static  Job createWCJob(Configuration jobConf, String inputPath,
 			String outputPath) throws IOException {
 		jobConf.set("mapred.jar", findCodeBoyHadoopToyJar());
 		Job job = new Job(jobConf);
 
-		job.setJarByClass(TokenizerMapper.class);
+		job.setJarByClass(WCTokenizerMapper.class);
 
 		job.setJobName("wordcount");
 
 		job.setOutputKeyClass(Text.class);
 		job.setOutputValueClass(IntWritable.class);
 
-		job.setMapperClass(TokenizerMapper.class);
+		job.setMapperClass(WCTokenizerMapper.class);
 
-		job.setCombinerClass(IntSumReducer.class);
-		job.setReducerClass(IntSumReducer.class);
+		job.setCombinerClass(WCIntSumReducer.class);
+		job.setReducerClass(WCIntSumReducer.class);
 
 		job.setInputFormatClass(TextInputFormat.class);
 		job.setOutputFormatClass(TextOutputFormat.class);
@@ -87,8 +86,8 @@ public class LocalWordCountTestOrigin_PseudoCluser {
 		return job;
 	}
 
-	private static String findCodeBoyHadoopToyJar() {
-		return "/Users/zhaoyong/git/hadoop/CodeBoyHadoopToy/CodeBoyHadoopToy.jar";
+	private  static String findCodeBoyHadoopToyJar() {
+		return "/Users/zhaoyong/hadoop-sample-1.0.jar";
 	}
 
 }
