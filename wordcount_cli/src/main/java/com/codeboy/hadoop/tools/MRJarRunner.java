@@ -34,51 +34,51 @@ public class MRJarRunner {
 	   */
 	  public static final int SHUTDOWN_HOOK_PRIORITY = 10;
 
-	  /**
-	   * Unpack a jar file into a directory.
-	   *
-	   * This version unpacks all files inside the jar regardless of filename.
-	   */
-	  public static void unJar(File jarFile, File toDir) throws IOException {
-	    unJar(jarFile, toDir, MATCH_ANY);
-	  }
+//	  /**
+//	   * Unpack a jar file into a directory.
+//	   *
+//	   * This version unpacks all files inside the jar regardless of filename.
+//	   */
+//	  public static void unJar(File jarFile, File toDir) throws IOException {
+//	    unJar(jarFile, toDir, MATCH_ANY);
+//	  }
 
-	  /**
-	   * Unpack matching files from a jar. Entries inside the jar that do
-	   * not match the given pattern will be skipped.
-	   *
-	   * @param jarFile the .jar file to unpack
-	   * @param toDir the destination directory into which to unpack the jar
-	   * @param unpackRegex the pattern to match jar entries against
-	   */
-	  public static void unJar(File jarFile, File toDir, Pattern unpackRegex)
-	    throws IOException {
-	    JarFile jar = new JarFile(jarFile);
-	    try {
-	      Enumeration<JarEntry> entries = jar.entries();
-	      while (entries.hasMoreElements()) {
-	        JarEntry entry = (JarEntry)entries.nextElement();
-	        if (!entry.isDirectory() &&
-	            unpackRegex.matcher(entry.getName()).matches()) {
-	          InputStream in = jar.getInputStream(entry);
-	          try {
-	            File file = new File(toDir, entry.getName());
-	            ensureDirectory(file.getParentFile());
-	            OutputStream out = new FileOutputStream(file);
-	            try {
-	              IOUtils.copyBytes(in, out, 8192);
-	            } finally {
-	              out.close();
-	            }
-	          } finally {
-	            in.close();
-	          }
-	        }
-	      }
-	    } finally {
-	      jar.close();
-	    }
-	  }
+//	  /**
+//	   * Unpack matching files from a jar. Entries inside the jar that do
+//	   * not match the given pattern will be skipped.
+//	   *
+//	   * @param jarFile the .jar file to unpack
+//	   * @param toDir the destination directory into which to unpack the jar
+//	   * @param unpackRegex the pattern to match jar entries against
+//	   */
+//	  public static void unJar(File jarFile, File toDir, Pattern unpackRegex)
+//	    throws IOException {
+//	    JarFile jar = new JarFile(jarFile);
+//	    try {
+//	      Enumeration<JarEntry> entries = jar.entries();
+//	      while (entries.hasMoreElements()) {
+//	        JarEntry entry = (JarEntry)entries.nextElement();
+//	        if (!entry.isDirectory() &&
+//	            unpackRegex.matcher(entry.getName()).matches()) {
+//	          InputStream in = jar.getInputStream(entry);
+//	          try {
+//	            File file = new File(toDir, entry.getName());
+//	            ensureDirectory(file.getParentFile());
+//	            OutputStream out = new FileOutputStream(file);
+//	            try {
+//	              IOUtils.copyBytes(in, out, 8192);
+//	            } finally {
+//	              out.close();
+//	            }
+//	          } finally {
+//	            in.close();
+//	          }
+//	        }
+//	      }
+//	    } finally {
+//	      jar.close();
+//	    }
+//	  }
 
 	  /**
 	   * Ensure the existence of a given directory.
