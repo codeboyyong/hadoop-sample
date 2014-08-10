@@ -1,0 +1,16 @@
+733  cd hadoop-2.0.0-mr1-cdh4.1.2/
+ 9734  ./bin/hadoop fs -chown xx /golfnew.csv
+ 9735  ./bin/hadoop fs -chmod g-r /golfnew.csv
+ 9736  ./bin/hadoop fs -chmod o-r /golfnew.csv
+ 9737  ./bin/hadoop fs -ls /
+ 
+ 
+ 16:06:55-zhaoyong:/apache104/hadoop-1.0.4$ ./bin/hadoop fs -ls /tmp
+2014-08-10 16:08:29.899 java[1576:1003] Unable to load realm info from SCDynamicStore
+Found 15 items
+-rw-r--r--   3 zhaoyong supergroup         66 2013-11-22 11:23 /tmp/admin_corr_0
+drwxr-xr-x   - zhaoyong supergroup          0 2013-11-22 11:24 /tmp/admin_dist_0
+drwxr-xr-x   - zhaoyong supergroup          0 2013-11-22 11:24 /tmp/admin_rowfil_1
+-rw-r--r--   3 zhaoyong supergroup          0 2013-11-22 11:26 /tmp/admin_vmask_0
+drwxrwxr-x   - zhaoyong supergroup          0 2014-08-10 14:25 /tmp/myout
+drwxrwxr-x   - xx       supergroup          0 2014-08-10 16:08 /tmp/myout-xx

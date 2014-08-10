@@ -3,26 +3,21 @@ package com.codeboy.hadoop.tools;
 
 
 import java.io.File;
-import java.io.FileOutputStream;
 import java.io.IOException;
-import java.io.InputStream;
-import java.io.OutputStream;
 import java.lang.reflect.Array;
 import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.ArrayList;
+import java.lang.reflect.UndeclaredThrowableException;
+import java.security.PrivilegedActionException;
+import java.security.PrivilegedExceptionAction;
 import java.util.Arrays;
-import java.util.Enumeration;
-import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.Manifest;
 import java.util.regex.Pattern;
 
 import org.apache.hadoop.conf.Configuration;
 import org.apache.hadoop.fs.FileUtil;
-import org.apache.hadoop.io.IOUtils;
+import org.apache.hadoop.security.UserGroupInformation;
 
 public class MRJarRunner {
 
@@ -186,16 +181,77 @@ public class MRJarRunner {
 //	    Thread.currentThread().setContextClassLoader(loader);
 	    System.out.println("mainClassName=" +mainClassName);
 	    Class<?> mainClass = Class.forName(mainClassName, true, MRJarRunner.class.getClassLoader());
-	    Method main = mainClass.getMethod("main", new Class[] {
+	    final  Method main = mainClass.getMethod("main", new Class[] {
 	      Array.newInstance(String.class, 0).getClass()
 	    });
-	    String[] newArgs = Arrays.asList(args)
+	    final String[] newArgs = Arrays.asList(args)
 	      .subList(firstArg, args.length).toArray(new String[0]);
-	    try {
-	      main.invoke(null, new Object[] { newArgs });
-	    } catch (InvocationTargetException e) {
-	      throw e.getTargetException();
-	    }
+	     
+	      
+	    	  PrivilegedExceptionAction action = new PrivilegedExceptionAction() {
+	                public Object run() throws Exception {
+	                		return main.invoke(null, new Object[] { newArgs });
+	                }
+	            };
+	            
+	    		UserGroupInformation ugi = null;
+ 	    			Method[] methods = UserGroupInformation.class.getMethods();
+	    			for (Method method : methods) {
+	    				if (method.getName().equals("createRemoteUser")
+	    						&& method.getParameterTypes()[0].equals(String.class)) {
+	    					ugi = (UserGroupInformation) method.invoke(
+	    							UserGroupInformation.class, "xx");
+	    					break;
+	    				}
+	    			}
+ 	    		
+ 	               performPrivilegedExceptionAction(
+	                    ugi, action);
+	   
+	   
 	  }
+	  
+	  public static Object performPrivilegedExceptionAction(UserGroupInformation ugi,
+				PrivilegedExceptionAction  action) throws  Exception {
+			Method[] methods = UserGroupInformation.class.getMethods();
+
+	        for (Method method : methods) {
+	            if (method.getName().equals("doAs")
+	                    && method.getParameterTypes()[0]
+	                    .equals(PrivilegedExceptionAction.class)) {
+	                try {
+	                    return method.invoke(ugi, action);
+	                } catch (Exception e) {//nullpoint, empty...
+ 	                    if (e instanceof InvocationTargetException) {
+	                        Throwable targetException = ((InvocationTargetException) e).getTargetException();
+	                        if (targetException instanceof UndeclaredThrowableException) {
+	                            Throwable ue = ((UndeclaredThrowableException) targetException).getUndeclaredThrowable();
+	                        
+	                              if (ue instanceof PrivilegedActionException) {
+	                                throw ((PrivilegedActionException) ue).getException();
+	                            }  else if (ue instanceof Exception) {
+	                                throw ((Exception) ue) ;//this for the change in CD5, see 69201736
+	                            }
+	                            else {
+	                                throw e;
+	                            }
+	                        } else {
+	                            if (((InvocationTargetException) e).getTargetException() != null
+	                                    && ((InvocationTargetException) e).getTargetException() instanceof Exception) {
+	                                throw (Exception) ((InvocationTargetException) e).getTargetException();
+	                            } else {
+	                                throw e;
+	                            }
+
+	                        }
+	                    } else {
+	                        throw e;
+	                    }
+	                }
+
+	            }
+	        }
+			    return null;
+		}
 	  
 }
