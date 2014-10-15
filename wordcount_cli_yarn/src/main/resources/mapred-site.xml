@@ -4,12 +4,7 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
-  <property>
-    <name>mapreduce.cluster.temp.dir</name>
-    <value>/cdh5/tmp_yarn</value>
-    <final>true</final>
-  </property>
-
+ 
 
   <!--property>
     <name>mapreduce.cluster.local.dir</name>

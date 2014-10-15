@@ -59,17 +59,5 @@
     <name>yarn.nodemanager.aux-services.mapreduce.shuffle.class</name>
     <value>org.apache.hadoop.mapred.ShuffleHandler</value>
   </property>
-  <property>
-    <name>yarn.nodemanager.local-dirs</name>
-    <value>/cdh5/data/1/yarn/local</value>
-  </property>
-  <property>
-    <name>yarn.nodemanager.log-dirs</name>
-    <value>/cdh5/data/1/yarn/logs</value>
-  </property>
-  <property>
-    <description>Where to aggregate logs</description>
-    <name>yarn.nodemanager.remote-app-log-dir</name>
-    <value>/var/log/hadoop-yarn-cdh5/apps</value>
-  </property>
+ 
 </configuration>

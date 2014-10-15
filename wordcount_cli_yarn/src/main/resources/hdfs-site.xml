@@ -17,23 +17,6 @@
 <!-- Put site-specific property overrides in this file. -->
 
 <configuration>
-<property>
-<name>dfs.name.dir</name>
-<value>/cdh5/name</value>
-</property>
 
-<property>
-<name>dfs.data.dir</name>
-<value>/cdh5/data</value>
-</property>
-
-<property>
-<name>dfs.replication</name>
-<value>1</value>
-</property>
-<property>
-<name>dfs.permissions</name>
- <value>false</value>
-</property>
 </configuration>
 

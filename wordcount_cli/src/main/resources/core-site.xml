@@ -21,10 +21,7 @@
 <name>fs.default.name</name>
 <value>hdfs://localhost:9000</value>
 </property>
-<property>
-     <name>hadoop.tmp.dir</name>
-     <value>/cdh4/tmp</value>
-</property>
+
 <property>
      <name>mapred.jar</name>
      <value>/Users/zhaoyong/git/codeboyyong/hadoop-sample/wordcount_cli/target/wordcount_cli-1.0.jar</value>
