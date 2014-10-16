@@ -20,7 +20,13 @@ import com.codeboy.hadoop.util.HadoopClusterUtil;
 import com.codeboy.hadoop.util.HadoopFileUtil;
 
 /***
- * need user create the jar file and run the jar file in main
+ * need user create the jar file and run the jar file in main.
+ * Make sure start hadoop local cluster before run it.
+ * 
+ * cd hadoop-scripts/hadoop-installtion/script/
+ * 
+ * ./start-hadoop.sh 1.2.1
+ * 
  * @author codeboyyong
  *
  */
@@ -30,12 +36,12 @@ public class LocalWordCountTest_PseudoCluser {
 	public   static void main( String args[]) throws Exception {
 
 		InputStream jsonFileInputStream = LocalWordCountTest_PseudoCluser.class
-				.getResourceAsStream("/com/codeboy/hadoop/resource/cluster/localhosthadoop.txt");
+				.getResourceAsStream("/com/codeboy/hadoop/resource/cluster/conf/zhaoyong/TestCluster.json");
 		HadoopCluster hadoopCluster = HadoopClusterUtil
 				.readHadoopClusterFromJsonInputStram(jsonFileInputStream);
 
 		InputStream wordCountInputStream = LocalWordCountTest_PseudoCluser.class
-				.getResourceAsStream("/com/codeboy/hadoop/resource/testdata/wordcount.txt");
+				.getResourceAsStream("/com/codeboy/hadoop/resource/testdata/wordcount_input_a2g.txt");
 
 		String inputPath = "/tmp/wordcount.txt";
 		HadoopFileUtil.writeInputStreamIntoHDFSFile(wordCountInputStream,

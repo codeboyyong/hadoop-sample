@@ -32,7 +32,10 @@ public abstract class BaseHadoopTest {
 
 	@After 
 	public   void tearDownAfter () throws Exception {
-		testClusterManager.shutDown();
+		if(testClusterManager!=null){
+			testClusterManager.shutDown();
+			
+		}
  	}
 
 	// /com/codeboy/hadoop/resource/testdata/wordcount_input.txt
