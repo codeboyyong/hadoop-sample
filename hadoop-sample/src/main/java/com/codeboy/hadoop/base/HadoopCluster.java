@@ -217,5 +217,12 @@ public class HadoopCluster     {
  		return this.sshConfig;
 	}
 
+	public void setConf(String key, String value) {
+		if(customizedPorpeties==null){
+			customizedPorpeties= new Properties();
+		}
+		customizedPorpeties.put(key, value);
+	}
+
 
 }

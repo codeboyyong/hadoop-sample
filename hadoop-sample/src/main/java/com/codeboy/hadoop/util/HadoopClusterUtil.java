@@ -7,6 +7,7 @@ import org.apache.hadoop.conf.Configuration;
 
 import com.codeboy.hadoop.base.HadoopCluster;
 import com.codeboy.hadoop.base.HadoopConstants;
+import com.codeboy.hadoop.base.HadoopCluster.ClusterType;
 import com.google.gson.Gson;
 
 public class HadoopClusterUtil {
@@ -17,7 +18,10 @@ public class HadoopClusterUtil {
 		conf.set("fs.default.name",toNameNodeURL(  hadoopCluster));
  		//if don't set, running in local mode, you can debug into mapper and reducer
 		//but then the out put will loss
-		//conf.set("mapred.job.tracker", hadoopClust er.getJobHost() +":" +hadoopCluster.getJobPort());
+		if(hadoopCluster.getType().equals(ClusterType.LOCAL)){
+			 conf.set("mapred.job.tracker", hadoopCluster.getJobHost() +":" +hadoopCluster.getJobPort());
+
+		}
 
 		if(hadoopCluster.getCustomizedPorpeties()!=null){
 			for(Object  key :hadoopCluster.getCustomizedPorpeties().keySet()){
