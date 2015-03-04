@@ -29,10 +29,11 @@ public class WordCount extends Configured implements Tool{
           //  conf.set("mapred.jar", "/Users/zhaoyong/git/codeboyyong/hadoop-sample/wordcount_cli/target/wordcount_cli-1.0.jar");
     		
             Job job = new Job(conf);
+    		job.setJarByClass(WordCount.class);
 
             //Providing the mapper and reducer class names
     		job.setMapperClass(WCTokenizerMapper.class);
-          job.setReducerClass(WCIntSumReducer.class);
+            job.setReducerClass(WCIntSumReducer.class);
 
             //the hdfs input and output directory to be fetched from the command line
 

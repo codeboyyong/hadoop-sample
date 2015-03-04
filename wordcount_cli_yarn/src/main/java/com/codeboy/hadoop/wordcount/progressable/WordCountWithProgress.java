@@ -10,14 +10,14 @@ import org.apache.hadoop.fs.Path;
 import org.apache.hadoop.io.IntWritable;
 import org.apache.hadoop.io.Text;
 import org.apache.hadoop.mapred.JobConf;
+import org.apache.hadoop.mapred.JobStatus;
 import org.apache.hadoop.mapreduce.Job;
 import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
-import com.codeboy.hadoop.wordcount.WCIntSumReducer;
-import com.codeboy.hadoop.wordcount.WCTokenizerMapper;
+ 
 
 public class WordCountWithProgress extends Configured implements Tool {
 
@@ -40,16 +40,17 @@ public class WordCountWithProgress extends Configured implements Tool {
 
 		Job job = new Job(conf);
 
+		job.setJarByClass(WordCountWithProgress.class);
 		// Providing the mapper and reducer class names
-		job.setMapperClass(WCTokenizerMapper.class);
-		job.setReducerClass(WCIntSumReducer.class);
+		job.setMapperClass(SlowWCTokenizerMapper.class);
+		job.setReducerClass(SlowWCIntSumReducer.class);
 
 		// the hdfs input and output directory to be fetched from the command
 		// line
 
 		FileInputFormat.setInputPaths(job, new Path(args[0]));
 		FileOutputFormat.setOutputPath(job, new Path(args[1]));
-		startProgressTimer(job);
+		//startProgressTimer(job);
 		job.waitForCompletion(true);
 		return 0;
 	}
@@ -62,10 +63,13 @@ public class WordCountWithProgress extends Configured implements Tool {
 			@Override
 			public void run() {
 				try {
-					System.out.println("map progress ="+job.mapProgress());
-					System.out.println("reduce progress = " +job.reduceProgress());
-				} catch (IOException e) {
- 					e.printStackTrace();
+//					if(job.getStatus().equals(JobStatus.RUNNING)){
+						System.out.println("[" + job.getStatus().getState() 
+								+ "] map progress ="+job.mapProgress()+ " reduce progress = " +job.reduceProgress());	
+//					}
+					
+				} catch (Exception e) {
+ 					//e.printStackTrace();
 				}
 			
 				
@@ -74,8 +78,7 @@ public class WordCountWithProgress extends Configured implements Tool {
 			
 		};
 		timer.schedule(task, interval, interval);
-		// TODO Auto-generated method stub
-
+ 
 	}
 
 	public static void main(String[] args) throws Exception {

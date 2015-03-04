@@ -24,9 +24,10 @@
  
 <property>
      <name>mapred.jar</name>
-     <value>/Users/zhaoyong/git/codeboyyong/hadoop-sample/wordcount_cli_yarn/target/wordcount_cli_yarn-1.0.jar</value>
+     <value>/home/john/git/codeboyyong/hadoop-sample/wordcount_cli_yarn/target/wordcount_cli_yarn-1.0.jar</value>
      <!--This is extremly important!!!, see WordCount.java 
                //  conf.set("mapred.jar", "/Users/zhaoyong/git/codeboyyong/hadoop-sample/wordcount_cli/target/wordcount_cli-1.0.jar");
+     you can do it by setJarByClass
      -->
 </property>
 </configuration>
