@@ -25,7 +25,7 @@ public class WordCount extends Configured implements Tool {
     public int run(String[] args) throws Exception {
 
         if (args.length != 2) {
-            System.err.println("Usage: hadoop jar crunch-demo-1.0-SNAPSHOT-job.jar"
+            System.err.println("Usage: hadoop jar target/crunch-sample-1.0-job.jar"
                                       + " [generic options] input output");
             System.err.println();
             GenericOptionsParser.printGenericCommandUsage(System.err);

@@ -22,7 +22,6 @@ import org.apache.hadoop.mapreduce.lib.input.FileInputFormat;
 import org.apache.hadoop.mapreduce.lib.input.TextInputFormat;
 import org.apache.hadoop.mapreduce.lib.output.FileOutputFormat;
 import org.apache.hadoop.mapreduce.lib.output.TextOutputFormat;
-import org.apache.hadoop.mapreduce.lib.partition.InputSampler;
 import org.apache.hadoop.mapreduce.lib.partition.TotalOrderPartitioner;
 import org.junit.Before;
 import org.junit.Test;
@@ -58,7 +57,7 @@ public class TotalSortingTestMiniCLuster extends BaseHadoopTest {
 		try {
 
 			Properties overrideProperties = new Properties();
-			overrideProperties.put("dfs.block.size", BLOCK_SIZE+"");//1024
+			overrideProperties.put("dfs.block.size", BLOCK_SIZE+"");//1024k
 			super.testClusterManager = new TestClusterManager(overrideProperties);
 			super.testClusterManager.startUp();
 
