@@ -17,16 +17,21 @@ Reference : [https://cwiki.apache.org/confluence/display/Hive/HCatalog](https://
 ### MapReduce Sample 	
 
 #####Usage:
-`[hive@hadoop ~]$ hcat -e "create table groups(name string,placeholder string,id int) row format delimited fields terminated by ':' stored as textfile"`
+[hive@hadoop ~]$ hcat -e "create table **golf**(`outlook string,temperature int ,humidity int,wind string,play string` ) row format delimited fields terminated by ',' stored as textfile"
+	
+[hive@hadoop ~]$ hcat -e "load data local inpath '.src/main/resources/golf.csv' overwrite into table `golf`"
 
-`[hive@hadoop ~]$ mvn package`
 
-`[hive@hadoop ~]$ hcat -e "load data local inpath '/etc/group' overwrite into table groups"`
 
-`[hive@hadoop ~]$ source ./hcatalog-env.sh`
+[hive@hadoop ~]$ hcat -e "create table **golf_columnfilter** (`temperature int , play string` ) row format delimited fields terminated by ',' stored as textfile"
 
-`[hive@hadoop ~]$ hadoop jar target/hcatalog-sample-1.0.jar com.cloudera.test.UseHCat -files $HCATJAR -libjars $LIBJARS groups groupids`
+[hive@hadoop ~]$ mvn package
+[hive@hadoop ~]$ source ./hcatalog-env.sh	
 
+[hive@hadoop ~]$ hadoop jar target/hcatalog-sample-1.0.jar com.codeboy.hcatalog.HCatalogColumnFilter -files $HCATJAR -libjars $LIBJARS **golf golf_columnfilter** `temperature,play`
+
+#####Note:
+This sample shows we did a column filter by mapreduce from 1 HCatalog tabel to another HCatalog table
 #####Reference :	
 
 [https://github.com/cloudera/hcatalog-examples](https://github.com/cloudera/hcatalog-examples)	
