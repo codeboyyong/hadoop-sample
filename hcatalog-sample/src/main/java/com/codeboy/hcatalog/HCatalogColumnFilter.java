@@ -92,7 +92,8 @@ public class HCatalogColumnFilter extends Configured implements Tool {
         conf.set(COLUMN_INDEX ,  getColumnIndex(columnNames,inputSchema)); 
 
         inputSchema.getFieldNames();
-        job.setJarByClass(HCatalogColumnFilter.class);
+        //job.setJarByClass(HCatalogColumnFilter.class);
+        job.setJar("/Users/zhaoyong/git/codeboyyong/hadoop-sample/hcatalog-sample/target/hcatalog-sample-1.0.jar");
         job.setMapperClass(Map.class);
  
         // An HCatalog record as input
