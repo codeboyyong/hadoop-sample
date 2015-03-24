@@ -5,6 +5,46 @@
 
 
 
+before it we need
+1) configure hive use remote metastore databse
+in conf/ hive-site.xml
+<configuration>
+
+<property>
+  <name>hive.metastore.uris</name>
+  <value>thrift://localhost:9083</value>
+</property>
+
+<property>
+  <name>javax.jdo.option.ConnectionURL</name>
+  <value>jdbc:postgresql://localhost:5432/hive_metastore</value>
+</property>
+
+<property>
+  <name>javax.jdo.option.ConnectionDriverName</name>
+  <value>org.postgresql.Driver</value>
+</property>
+ 
+<property>
+  <name>javax.jdo.option.ConnectionUserName</name>
+  <value>******</value>
+</property>
+
+<property>
+  <name>javax.jdo.option.ConnectionPassword</name>
+  <value>******</value>
+</property>
+ 
+
+</configuration>
+
+2)  start hive metastore server as a remote server :
+ 
+ [~/hadoop-install/hive-0.13.1-cdh5.3.1/bin ] $hive --service metastore
+ 
+3)   start hiveserver2
+[~/hadoop-install/hive-0.13.1-cdh5.3.1/bin ] $./hiveserver2 
+
 ### Command Line Sample
 
 
@@ -31,7 +71,10 @@ Reference : [https://cwiki.apache.org/confluence/display/Hive/HCatalog](https://
 
 [hive@hadoop ~]$ hadoop jar target/hcatalog-sample-1.0.jar com.codeboy.hcatalog.HCatalogColumnFilter -files $HCATJAR -libjars $LIBJARS **golf golf_columnfilter** `temperature,play`
 
-[hive@hadoop ~]$mvn exec:java  -Dexec.mainClass="com.codeboy.hcatalog.HCatalogColumnFilter"   -Dexec.args="golf gocolumnfilter temperature,play"
+[hive@hadoop ~]$mvn exec:java  -Dexec.mainClass="com.codeboy.hcatalog.HCatalogColumnFilter"   -Dexec.args="--libjars /apache2.2.0/apache-hive-0.13.1-bin/hcatalog/share/hcatalog/hive-hcatalog-core-0.13.1.jar golf golf_columnfilter temperature,play"
+
+
+mvn exec:java  -Dexec.mainClass="com.codeboy.hcatalog.HCatalogColumnFilter"   -Dexec.args="--libjars /Users/zhaoyong/git/apache/hive/hcatalog/core/target/hive-hcatalog-core-0.13.1.jar,/apache2.2.0/apache-hive-0.13.1-bin/./lib/hive-exec-0.13.1.jar,/apache2.2.0/apache-hive-0.13.1-bin/./lib/hive-metastore-0.13.1.jar,/Users/zhaoyong/.m2/repository/org/apache/thrift/libfb303/0.9.0/libfb303-0.9.0.jar golf golf_columnfilter temperature,play"
 
 #####Note:
 This sample shows we did a column filter by mapreduce from 1 HCatalog tabel to another HCatalog table. These two table must be existed in HCatalog/Hive

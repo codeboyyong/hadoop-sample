@@ -1,6 +1,5 @@
 package com.codeboy.hcatalog;
 
-
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
@@ -26,111 +25,134 @@ import org.apache.hive.hcatalog.mapreduce.OutputJobInfo;
 /**
  * 
  * @author zhaoyong
- *
+ * 
  */
 public class HCatalogColumnFilter extends Configured implements Tool {
 
-    private static final String COLUMN_INDEX = "COLUMN_INDEX";
+	private static final String COLUMN_INDEX = "COLUMN_INDEX";
 
-	public static class Map extends Mapper<WritableComparable, HCatRecord, HCatRecord, NullWritable> {
-        String groupname;
-		private int[] columnNameIndex; 
+	public static class Map extends
+			Mapper<WritableComparable, HCatRecord, HCatRecord, NullWritable> {
+		String groupname;
+		private int[] columnNameIndex;
 		StringBuilder sb = new StringBuilder();
-		Text output= new Text();
-        
+		Text output = new Text();
+
 		@Override
-      protected void map( WritableComparable key,
-                          HCatRecord value,
-                          org.apache.hadoop.mapreduce.Mapper<WritableComparable, HCatRecord,
-                          HCatRecord, NullWritable>.Context context)
-            throws IOException, InterruptedException {
-			   HCatRecord record = new DefaultHCatRecord(columnNameIndex.length);
-        	 
-        		for(int i :columnNameIndex){ 
-        			record.set(i, value.get(i));
-        		}
- 
-            context.write( record, NullWritable.get());
-        }
+		protected void map(
+				WritableComparable key,
+				HCatRecord value,
+				org.apache.hadoop.mapreduce.Mapper<WritableComparable, HCatRecord, HCatRecord, NullWritable>.Context context)
+				throws IOException, InterruptedException {
+			HCatRecord record = new DefaultHCatRecord(columnNameIndex.length);
+
+			for (int i : columnNameIndex) {
+				record.set(i, value.get(i));
+			}
+
+			context.write(record, NullWritable.get());
+		}
 
 		@Override
 		protected void setup(Context context) throws IOException,
 				InterruptedException {
- 			super.setup(context);
-			String[] strIndex = context.getConfiguration().get(COLUMN_INDEX).split(",") ;
-			this.columnNameIndex= new int[strIndex.length] ;
+			super.setup(context);
+			String[] strIndex = context.getConfiguration().get(COLUMN_INDEX)
+					.split(",");
+			this.columnNameIndex = new int[strIndex.length];
 			for (int i = 0; i < strIndex.length; i++) {
-				columnNameIndex[i] = Integer.valueOf(strIndex[i])  ;
-			} 
+				columnNameIndex[i] = Integer.valueOf(strIndex[i]);
+			}
 		}
-        
-        
-    }
 
- 
+	}
 
-    public int run(String[] args) throws Exception {
-        Configuration conf = getConf();
-        args = new GenericOptionsParser(conf, args).getRemainingArgs();
+	public int run(String[] args) throws Exception {
+		Configuration conf = getConf();
+		args = new GenericOptionsParser(conf, args).getRemainingArgs();
 
-        // Get the input and output table names as arguments
-        String inputTableName = args[0];
-        String outputTableName = args[1];
-        String columnNames = args[2];
-         
-        // Assume the default database
-        String dbName = null;
+		// Get the input and output table names as arguments
+		String inputTableName = args[0];
+		String outputTableName = args[1];
+		String columnNames = args[2];
 
-        Job job =   Job.getInstance( conf, "HCatalogColumnFilter");
-        
-        //dbName = SchemaName
-        HCatInputFormat.setInput(job, dbName, inputTableName);
-       
-        HCatSchema inputSchema = HCatInputFormat.getTableSchema(job.getConfiguration()) ; 
-        System.err.println("INFO: input schema is :" +inputSchema);
-        
-        conf.set(COLUMN_INDEX ,  getColumnIndex(columnNames,inputSchema)); 
+		// Assume the default database
+		String dbName = null;
 
-        inputSchema.getFieldNames();
-        //job.setJarByClass(HCatalogColumnFilter.class);
-        job.setJar("/Users/zhaoyong/git/codeboyyong/hadoop-sample/hcatalog-sample/target/hcatalog-sample-1.0.jar");
-        job.setMapperClass(Map.class);
- 
-        // An HCatalog record as input
-        job.setInputFormatClass(HCatInputFormat.class);
+		Job job = Job.getInstance(conf, "HCatalogColumnFilter");
 
-        // Ignore the key for the reducer output; emitting an HCatalog record as value
-        job.setOutputKeyClass(DefaultHCatRecord.class);
-        job.setOutputValueClass(NullWritable.class);
-        
-     // An HCatalog record as output
-        job.setOutputFormatClass(HCatOutputFormat.class);
+		// dbName = SchemaName
+		HCatInputFormat.setInput(job, dbName, inputTableName);
 
-        HCatOutputFormat.setOutput(job, OutputJobInfo.create(dbName, outputTableName, null));
-        
-        /**will auto connect to HCatalog to get the table column information as the output schema information
-        this will work because the output table is alreasy exists!!! */
-        
-        HCatSchema outputSchema = HCatOutputFormat.getTableSchema(job.getConfiguration());
-         System.err.println("INFO: output schema explicitly set for writing:" + outputSchema);
-        
-        HCatOutputFormat.setSchema(job, outputSchema);
-        
-        return (job.waitForCompletion(true) ? 0 : 1);
-    }
+		HCatSchema inputSchema = HCatInputFormat.getTableSchema(job
+				.getConfiguration());
+		System.err.println("INFO: input schema is :" + inputSchema);
 
-    private String getColumnIndex(String columnNames, HCatSchema inputSchema) {
-    		String[] names = columnNames.split(",")  ;
-    		List<Integer> resultLists = new ArrayList();
-    		for(String colName:names){
-    			resultLists.add(inputSchema.getFieldNames().indexOf(colName)) ;
-    		}
-    		Collections.sort(resultLists); 
-		return resultLists.toString().replace( " ", "" ).replace("[", "").replace("]", "");  
+		conf.set(COLUMN_INDEX, getColumnIndex(columnNames, inputSchema));
+
+		inputSchema.getFieldNames();
+		// job.setJarByClass(HCatalogColumnFilter.class);
+		job.setJar("/Users/zhaoyong/git/codeboyyong/hadoop-sample/hcatalog-sample/target/hcatalog-sample-1.0.jar");
+		job.setMapperClass(Map.class);
+
+		// An HCatalog record as input
+		job.setInputFormatClass(HCatInputFormat.class);
+
+		// Ignore the key for the reducer output; emitting an HCatalog record as
+		// value
+		job.setOutputKeyClass(DefaultHCatRecord.class);
+		job.setOutputValueClass(NullWritable.class);
+
+		// An HCatalog record as output
+		job.setOutputFormatClass(HCatOutputFormat.class);
+
+		HCatOutputFormat.setOutput(job,
+				OutputJobInfo.create(dbName, outputTableName, null));
+
+		/**
+		 * will auto connect to HCatalog to get the table column information as
+		 * the output schema information this will work because the output table
+		 * is alreasy exists!!!
+		 */
+
+		HCatSchema outputSchema = HCatOutputFormat.getTableSchema(job
+				.getConfiguration());
+		System.err.println("INFO: output schema explicitly set for writing:"
+				+ outputSchema);
+
+		HCatOutputFormat.setSchema(job, outputSchema);
+
+		return (job.waitForCompletion(true) ? 0 : 1);
+	}
+
+	private String getColumnIndex(String columnNames, HCatSchema inputSchema) {
+		String[] names = columnNames.split(",");
+		List<Integer> resultLists = new ArrayList();
+		for (String colName : names) {
+			resultLists.add(inputSchema.getFieldNames().indexOf(colName));
+		}
+		Collections.sort(resultLists);
+		return resultLists.toString().replace(" ", "").replace("[", "")
+				.replace("]", "");
 	}
 
 	public static void main(String[] args) throws Exception {
-        int exitCode = ToolRunner.run(new HCatalogColumnFilter(), args);
-        System.exit(exitCode);
-    }
+		Configuration conf = new Configuration();
+		conf.set("fs.default.name", "hdfs://localhost:9000");
+
+		conf.set("mapreduce.framework.name", "yarn");
+		conf.set("yarn.resourcemanager.address", "localhost:8032");
+		conf.set("yarn.resourcemanager.scheduler.address", "localhost:8030");
+
+		conf.set("hive.metastore.uris", "thrift://localhost:9083");
+
+		conf.set("javax.jdo.option.ConnectionURL","jdbc:postgresql://localhost/metastore");
+
+		conf.set("javax.jdo.option.ConnectionDriverName","org.postgresql.Driver");
+		conf.set("javax.jdo.option.ConnectionUserName", "hiveuser");
+		conf.set("javax.jdo.option.ConnectionPassword", "mypassword");
+
+		int exitCode = ToolRunner.run(conf, new HCatalogColumnFilter(), args);
+		System.exit(exitCode);
+	}
 }

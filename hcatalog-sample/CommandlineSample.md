@@ -20,44 +20,44 @@ default
 
 `Time taken: 0.886 seconds`
 #### Create a table
-#####[hive@hadoop ~]$ hcat -e "create table groups(name string,placeholder string,id int) row format delimited fields terminated by ':' stored as textfile"
+#####[hive@hadoop ~]$ ./hcat -e "create table golf(outlook string,temperature int ,humidity int,wind string,play string ) row format delimited fields terminated by ',' stored as textfile"
 
 `OK`
+ 
+  
+credit 
 ####Show tables
 #####[hive@hadoop ~]$ hcat -e "show tables"; 
 
 `OK`
-
-groups	
-credit	
+	
+golf	
 
 `Time taken: 0.894 seconds`
 
 ####Select from table 
-#####[hive@hadoop ~]$ hcat -e "select * from default.credit";
+#####[hive@hadoop ~]$ hcat -e "select * from default.golf";
 
 `FAILED: SemanticException Operation not supported.`
 
 
 ####Show table details
-#####[hive@hadoop ~]$ hcat -e "DESCRIBE  default.credit"; or hcat -e "desc credit";
+#####[hive@hadoop ~]$ hcat -e "DESCRIBE  default.golf"; or hcat -e "desc golf";
 
 `OK`
 
-id                  	int                 	                    
-times90dayslate     	int                 	                    
-revolving_util      	double              	                    
-debt_ratio          	double              	                    
-credit_lines        	int                 	                    
-monthly_income      	double              	                    
-times30dayslate_2years	int                 	                    
-srsdlqncy           	int                 	                    
-
-`Time taken: 1.261 seconds`
+   outlook             	string              	                    
+temperature         	int                 	                    
+humidity            	int                 	                    
+wind                	string              	                    
+play                	string              	                    
+Time taken: 0.089 seconds, Fetched: 5 row(s)   	                    
+ 
 
 load data to table 
-load data local inpath '/tmp/input.txt' into table test_sq;
-create table with data
+ 
+  94  hcat -e "load data local inpath '/Users/zhaoyong/git/codeboyyong/hadoop-sample/hcatalog-sample/src/main/resources/golf.csv' overwrite into table golf"
+
 
  
 ### MapReduce Sample 	
