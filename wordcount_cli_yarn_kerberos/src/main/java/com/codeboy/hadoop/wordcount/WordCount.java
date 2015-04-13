@@ -13,6 +13,11 @@ import org.apache.hadoop.util.Tool;
 import org.apache.hadoop.util.ToolRunner;
 
 
+/***
+http://hadoop.apache.org/docs/r2.3.0/hadoop-project-dist/hadoop-common/Superusers.html
+
+http://www-01.ibm.com/support/knowledgecenter/SSPT3X_2.0.0/com.ibm.swg.im.infosphere.biginsights.admin.doc/doc/bi_admin_configure_proxyusers.html
+**/
 
 public class WordCount extends Configured implements Tool{
       public int run(String[] args) throws Exception
