@@ -28,10 +28,11 @@ public class WordCount extends Configured implements Tool{
             //mapred.jar -> see core-site.xml
           //  conf.set("mapred.jar", "/Users/zhaoyong/git/codeboyyong/hadoop-sample/wordcount_cli/target/wordcount_cli-1.0.jar");
     		
-            Job job = new Job(conf);
+          
+           Job job = new Job(conf);
 
             //Providing the mapper and reducer class names
-    		job.setMapperClass(WCTokenizerMapper.class);
+    	  job.setMapperClass(WCTokenizerMapper.class);
           job.setReducerClass(WCIntSumReducer.class);
 
             //the hdfs input and output directory to be fetched from the command line
@@ -44,8 +45,27 @@ public class WordCount extends Configured implements Tool{
       }
      
       public static void main(String[] args) throws Exception
-      {
-            int res = ToolRunner.run(new Configuration(), new WordCount(),args);
-            System.exit(res);
+    {
+         final Configuration conf = new Configuration();
+        conf.set("hadoop.security.authentication", "kerberos");
+        UserGroupInformation.setConfiguration(conf);
+        
+        //do kinit programmatically
+        UserGroupInformation.loginUserFromKeytab("hdfs/abc.com@ABC", "/home/zhaoyong/keytab/hdfs.keytab");
+        
+        //use hdfs user pretend to be the “user_abc"
+        UserGroupInformation ugi = UserGroupInformation.createProxyUser(“user_abc",UserGroupInformation.getLoginUser());
+       //UGI do as method still works now.
+        ugi.doAs(new PrivilegedExceptionAction<Void>() {
+            @Override
+            public Void run() throws Exception {
+                int res = ToolRunner.run(new Configuration(), new WordCount(),args);//submit hadoop job
+                return null;
+            }
+        });
+                                                                        }
+                                                                        
+     
+            System.exit(0);
       }
 }
