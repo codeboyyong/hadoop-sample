@@ -1,0 +1,38 @@
+This will install oozie in your local psuedo cluster and run everting in your name (as log in user).
+1) install hadoop cdh 5.3.3 in /cdh5/hadoop-2.5.0-cdh5.3.3  manually
+2) download oozie 4.0.0 tar ball for cdh 5.3.3 from http://www.cloudera.com/content/cloudera/en/documentation/core/latest/topics/cdh_vd_cdh_package_tarball.html
+
+3) unzip it into /cdh5/oozie-4.0.0-cdh5.3.3
+4) downlaod ext-2.2.zip and put it into libext directory in the root of oozie, you might need to mkdir.
+5)ext-2.2.zip
+6)  in your hadoop core-site.xml
+    <property>
+  <name>hadoop.proxyuser.YOUR_NAME.hosts</name>
+  <value>localhost</value>
+        </property>
+<property>
+          <name>hadoop.proxyuser.skhurana.groups</name>
+  <value>*</value>
+</property>
+
+7)rm ozie-sharelib-4.0.0-cdh5.3.3-mr1.tar.gz
+
+8) tar xf oozie-hadooplibs-4.0.0-cdh5.3.3.tar.gz  
+  and:  cp oozie-4.0.0-cdh5.3.3/hadooplibs/hadooplib-2.5.0-cdh5.3.3.oozie-4.0.0-cdh5.3.3/*.jar ./libext
+
+9) vi ./conf/oozie-env.sh
+ add :export CATALINA_PID=/var/run/oozie/oozie.pid
+
+10) start your local hadoop cluster 
+11) ./bin/oozie-setup.sh sharelib create -fs hdfs://localhost:9000
+12) ./oozie-setup.sh db create -run
+
+13)  ./bin/oozied.sh run or start
+14) to check the status  ./bin/oozie admin -oozie http://localhost:11000/oozie -status
+15) oozie console  http://localhost:11000/oozie
+
+
+
+
+
+http://localhost:11000/oozie/
